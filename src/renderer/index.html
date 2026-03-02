@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CafePOS - Brew &amp; Co.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Prevent flash of white before React loads */
+    html, body { background: #0F0F1A; margin: 0; padding: 0; }
+    #root { height: 100vh; }
+    #loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #0F0F1A;
+      color: #94A3B8;
+      font-family: sans-serif;
+      font-size: 16px;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid #2D2D5B;
+      border-top-color: #4F46E5;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <div class="spinner"></div>
+    <span>Loading CafePOS...</span>
+  </div>
+  <div id="root"></div>
+  <script>
+    // Hide loader once React mounts
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const el = document.getElementById('loading');
+        if (el) el.style.display = 'none';
+      }, 500);
+    });
+  </script>
+</body>
+</html>
