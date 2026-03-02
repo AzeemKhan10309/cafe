@@ -161,13 +161,15 @@ const deleteCategory = async (cat) => {
   if (!confirm(`Delete category "${cat.name}"?`)) return;
 
   try {
-    await window.api.deleteCategory(cat.id);
-    showToast('Category deleted ✓', 'info');
+    const result = await window.api.deleteCategory(cat.id);
 
-    // Remove category immediately from state
+    if (result.success === false) {
+      showToast(result.message || 'Failed to delete category', 'error');
+      return;
+    }
+
+    showToast('Category deleted', 'info');
     setCategories(prev => prev.filter(c => c.id !== cat.id));
-
-    // Optional: reload products if you want fresh data
     load();
   } catch (err) {
     console.error(err);

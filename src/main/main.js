@@ -28,7 +28,7 @@ function createWindow() {
   });
 
   const devURL = 'http://localhost:3000';
-  const prodURL = `file://${path.join(__dirname, '../../dist/index.html')}`;
+  const prodURL = `file://${path.join(__dirname, '../..', 'dist', 'index.html')}`;
 
   if (isDev) {
     // In dev mode, retry loading until webpack-dev-server is ready
@@ -97,7 +97,13 @@ function registerIPC() {
   // CATEGORIES
   ipcMain.handle('categories:getAll', () => db.getAllCategories());
   ipcMain.handle('categories:create', (_, data) => db.createCategory(data));
-  ipcMain.handle('categories:delete', (_, id) => db.deleteCategory(id));
+  ipcMain.handle('categories:delete', async (_, id) => {
+    try {
+      return db.deleteCategory(id);
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  });
 
   // ORDERS
   ipcMain.handle('orders:create', (_, data) => db.createOrder(data));
